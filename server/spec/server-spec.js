@@ -38,21 +38,18 @@ describe('Persistent Node Chat Server', function () {
 
   it('Should insert posted messages to the DB', function (done) {
     // Post the user to the chat server.
-    console.log('before users post');
     request({
       method: 'POST',
       uri: 'http://127.0.0.1:3000/classes/users',
       json: { username: 'Valjean' }
     }, function () {
       // Post the room to the chat server.
-      console.log('before rooms post');
       request({
         method: 'POST',
         uri: 'http://127.0.0.1:3000/classes/rooms',
         json: { roomname: 'main' }
       }, function () {
         // Post a message to the node chat server:
-        console.log('before messages post');
         request({
           method: 'POST',
           uri: 'http://127.0.0.1:3000/classes/messages',
@@ -62,25 +59,25 @@ describe('Persistent Node Chat Server', function () {
             roomname: 'main'
           } //insert into messages (message, room, user) value (message, (select id from rooms where rooms.name = 'main'), (select id from users w)
         }, function () {
-            console.log('before get request');
-            // Now if we look in the database, we should find the
-            // posted message there.
 
-            // TODO: You might have to change this test to get all the data from
-            // your message table, since this is schema-dependent.
-            var queryString = 'SELECT * FROM messages';
-            var queryArgs = [];
+          // Now if we look in the database, we should find the
+          // posted message there.
 
-            dbConnection.query(queryString, queryArgs, function (err, results) {
-              // Should have one result:
-              expect(results.length).to.equal(1);
+          // TODO: You might have to change this test to get all the data from
+          // your message table, since this is schema-dependent.
+          var queryString = 'SELECT * FROM messages';
+          var queryArgs = [];
 
-              // TODO: If you don't have a column named text, change this test.
-              expect(results[0].message).to.equal('In mercy\'s name, three days is all I need.');
+          dbConnection.query(queryString, queryArgs, function (err, results) {
+            // Should have one result:
+            expect(results.length).to.equal(1);
 
-              done();
-            });
+            // TODO: If you don't have a column named text, change this test.
+            expect(results[0].message).to.equal('In mercy\'s name, three days is all I need.');
+
+            done();
           });
+        });
       });
     });
   });
@@ -93,7 +90,6 @@ describe('Persistent Node Chat Server', function () {
     var queryStringUsers = 'INSERT INTO users SET ?';
 
     var queryArgs = { message: 'Men like you can never change!' };
-    //{message: 'teaadfafas', user: user, room: room}
 
 
     // TODO - The exact query string and query args to use

@@ -4,7 +4,7 @@ module.exports = {
   messages: {
     // a function which handles a get request for all messages
     get: function (req, res) {
-      models.messages.get(function(err, results) {
+      models.messages.get(function (err, results) {
         if (err) {
           console.log(err);
         } else {
@@ -15,9 +15,8 @@ module.exports = {
     },
     // a function which handles posting a message to the database
     post: function (req, res) {
-      var postParameters = [req.body.message, req.body.user, req.body.room];
-      console.log(req.body);
-      models.messages.post(postParameters, function(err, results) {
+      var postParameters = [req.body.message, req.body.username, req.body.roomname];
+      models.messages.post(postParameters, function (err, results) {
         if (err) {
           console.log(err);
         } else {
@@ -31,7 +30,7 @@ module.exports = {
   users: {
     // Ditto as above
     get: function (req, res) {
-      models.users.get(function(err, results) {
+      models.users.get(function (err, results) {
         if (err) {
           console.log(err);
         } else {
@@ -40,8 +39,10 @@ module.exports = {
       });
     },
     post: function (req, res) {
-      var postParameters = [req.body.user];
-      models.users.post(postParameters, function(err, results) {
+
+      var postParameters = [req.body.username];
+
+      models.users.post(postParameters, function (err, results) {
         if (err) {
           console.log(err);
         } else {
@@ -53,7 +54,7 @@ module.exports = {
 
   rooms: {
     get: function (req, res) {
-      models.rooms.get(function(err, results) {
+      models.rooms.get(function (err, results) {
         if (err) {
           console.log(err);
         } else {
@@ -62,8 +63,8 @@ module.exports = {
       });
     },
     post: function (req, res) {
-      var postParameters = [req.body.room];
-      models.rooms.post(postParameters, function(err, results) {
+      var postParameters = [req.body.roomname];
+      models.rooms.post(postParameters, function (err, results) {
         if (err) {
           console.log(err);
         } else {
