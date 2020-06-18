@@ -4,7 +4,7 @@ module.exports = {
   messages: {
     // a function which handles a get request for all messages
     get: function (req, res) {
-      models.messages.get((err, results) => {
+      models.messages.get(function(err, results) {
         if (err) {
           console.log(err);
         } else {
@@ -16,7 +16,8 @@ module.exports = {
     // a function which handles posting a message to the database
     post: function (req, res) {
       var postParameters = [req.body.message, req.body.user, req.body.room];
-      models.messages.post(postParameters, (err, results) => {
+      console.log(req.body);
+      models.messages.post(postParameters, function(err, results) {
         if (err) {
           console.log(err);
         } else {
@@ -30,7 +31,7 @@ module.exports = {
   users: {
     // Ditto as above
     get: function (req, res) {
-      models.users.get((err, results) => {
+      models.users.get(function(err, results) {
         if (err) {
           console.log(err);
         } else {
@@ -40,7 +41,29 @@ module.exports = {
     },
     post: function (req, res) {
       var postParameters = [req.body.user];
-      models.users.post(postParameters, (err, results) => {
+      models.users.post(postParameters, function(err, results) {
+        if (err) {
+          console.log(err);
+        } else {
+          res.sendStatus(201);
+        }
+      });
+    }
+  },
+
+  rooms: {
+    get: function (req, res) {
+      models.rooms.get(function(err, results) {
+        if (err) {
+          console.log(err);
+        } else {
+          res.json(results);
+        }
+      });
+    },
+    post: function (req, res) {
+      var postParameters = [req.body.room];
+      models.rooms.post(postParameters, function(err, results) {
         if (err) {
           console.log(err);
         } else {

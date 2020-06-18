@@ -20,11 +20,11 @@ describe('Persistent Node Chat Server', function () {
 
     var tables = ['messages', 'users', 'rooms'];
 
-    dbConnection.query('SET FOREIGN_KEY_CHECKS=0', function(error) {
+    dbConnection.query('SET FOREIGN_KEY_CHECKS=0', function (error) {
       if (error) { throw error; }
-      dbConnection.query('truncate table ??; truncate table ??; truncate table ??;', tables, function(error) {
+      dbConnection.query('truncate table ??; truncate table ??; truncate table ??;', tables, function (error) {
         if (error) { throw error; }
-        dbConnection.query('SET FOREIGN_KEY_CHECKS=1', function(error) {
+        dbConnection.query('SET FOREIGN_KEY_CHECKS=1', function (error) {
           if (error) { throw error; }
           done();
         });
@@ -38,38 +38,49 @@ describe('Persistent Node Chat Server', function () {
 
   it('Should insert posted messages to the DB', function (done) {
     // Post the user to the chat server.
+    console.log('before users post');
     request({
       method: 'POST',
       uri: 'http://127.0.0.1:3000/classes/users',
       json: { username: 'Valjean' }
     }, function () {
-      // Post a message to the node chat server:
+      // Post the room to the chat server.
+      console.log('before rooms post');
       request({
         method: 'POST',
-        uri: 'http://127.0.0.1:3000/classes/messages',
-        json: {
-          username: 'Valjean',
-          message: 'In mercy\'s name, three days is all I need.',
-          roomname: 'Hello'
-        }
+        uri: 'http://127.0.0.1:3000/classes/rooms',
+        json: { roomname: 'main' }
       }, function () {
-        // Now if we look in the database, we should find the
-        // posted message there.
+        // Post a message to the node chat server:
+        console.log('before messages post');
+        request({
+          method: 'POST',
+          uri: 'http://127.0.0.1:3000/classes/messages',
+          json: {
+            username: 'Valjean',
+            message: 'In mercy\'s name, three days is all I need.',
+            roomname: 'main'
+          } //insert into messages (message, room, user) value (message, (select id from rooms where rooms.name = 'main'), (select id from users w)
+        }, function () {
+            console.log('before get request');
+            // Now if we look in the database, we should find the
+            // posted message there.
 
-        // TODO: You might have to change this test to get all the data from
-        // your message table, since this is schema-dependent.
-        var queryString = 'SELECT * FROM messages';
-        var queryArgs = [];
+            // TODO: You might have to change this test to get all the data from
+            // your message table, since this is schema-dependent.
+            var queryString = 'SELECT * FROM messages';
+            var queryArgs = [];
 
-        dbConnection.query(queryString, queryArgs, function (err, results) {
-          // Should have one result:
-          expect(results.length).to.equal(1);
+            dbConnection.query(queryString, queryArgs, function (err, results) {
+              // Should have one result:
+              expect(results.length).to.equal(1);
 
-          // TODO: If you don't have a column named text, change this test.
-          expect(results[0].message).to.equal('In mercy\'s name, three days is all I need.');
+              // TODO: If you don't have a column named text, change this test.
+              expect(results[0].message).to.equal('In mercy\'s name, three days is all I need.');
 
-          done();
-        });
+              done();
+            });
+          });
       });
     });
   });
