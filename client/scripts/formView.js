@@ -14,8 +14,8 @@ var FormView = {
       var newMessage = {};
       newMessage.username = App.username;
       newMessage.roomname = $('#select option:selected').text() || 'Lobby';
-      newMessage.text = document.getElementById('message').value;
-      Parse.create(newMessage);
+      newMessage.message = document.getElementById('message').value;
+      httpRequests.createMessage(newMessage);
       // puts the prepending element at the first index.
       $('#chats').prepend(MessageView.render(newMessage));
       document.getElementById('send').reset();

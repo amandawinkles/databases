@@ -13,9 +13,9 @@ var MessagesView = {
     _.each(data, function (userObj) {
       var objMessage = userObj;
       Message = {};
-      Message.username = objMessage.username;
-      Message.text = objMessage.text;
-      Message.roomname = objMessage.roomname;
+      Message.username = userObj.name;
+      Message.message = userObj.message;
+      Message.roomname = userObj.roomname;
       MessagesView.renderMessage(Message);
     });
   },

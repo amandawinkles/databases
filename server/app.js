@@ -18,6 +18,15 @@ app.set('port', 3000);
 app.use(morgan('dev'));
 app.use(parser.json());
 
+//CORS handling
+app.use((req, res, next) => {
+  res.setHeader('access-control-allow-origin', '*');
+  res.setHeader('access-control-allow-methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.setHeader('access-control-allow-headers', 'content-type, accept');
+  res.setHeader('access-control-max-age', 10);
+  next();
+});
+
 // Set up our routes
 app.use('/classes', router);
 

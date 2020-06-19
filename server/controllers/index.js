@@ -1,11 +1,5 @@
 var models = require('../models');
 
-var headers = {
-  "access-control-allow-origin": "*",
-  "access-control-allow-methods": "GET, POST, PUT, DELETE, OPTIONS",
-  "access-control-allow-headers": "content-type, accept",
-  "access-control-max-age": 10
-}
 
 module.exports = {
   messages: {
@@ -16,22 +10,19 @@ module.exports = {
           console.log(err);
         } else {
           //send with results string as json object
-          res.set(headers);
-          res.sendStatus(200);
+          //res.sendStatus(200);
           res.json(results);
         }
       });
     },
     // a function which handles posting a message to the database
     post: function (req, res) {
-      var postParameters = [req.body.message, req.body.username, req.body.roomname];
-      models.messages.post(postParameters, function (err, results) {
+      //var postParameters = [req.body.message, req.body.username, req.body.roomname];
+      models.messages.post(req.body, function (err, results) {
         if (err) {
           console.log(err);
         } else {
           //set http response status- the request has succeeded and has led to the creation of a message post
-          res.writeHead(201, headers);
-          res.set(headers);
           res.sendStatus(201);
         }
       });
@@ -45,6 +36,7 @@ module.exports = {
         if (err) {
           console.log(err);
         } else {
+          res.sendStatus(200);
           res.json(results);
         }
       });
@@ -69,6 +61,7 @@ module.exports = {
         if (err) {
           console.log(err);
         } else {
+          res.sendStatus(200);
           res.json(results);
         }
       });
