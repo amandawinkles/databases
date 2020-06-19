@@ -1,5 +1,12 @@
 var models = require('../models');
 
+var headers = {
+  "access-control-allow-origin": "*",
+  "access-control-allow-methods": "GET, POST, PUT, DELETE, OPTIONS",
+  "access-control-allow-headers": "content-type, accept",
+  "access-control-max-age": 10
+}
+
 module.exports = {
   messages: {
     // a function which handles a get request for all messages
@@ -9,6 +16,8 @@ module.exports = {
           console.log(err);
         } else {
           //send with results string as json object
+          res.set(headers);
+          res.sendStatus(200);
           res.json(results);
         }
       });
@@ -21,6 +30,8 @@ module.exports = {
           console.log(err);
         } else {
           //set http response status- the request has succeeded and has led to the creation of a message post
+          res.writeHead(201, headers);
+          res.set(headers);
           res.sendStatus(201);
         }
       });
