@@ -67,8 +67,8 @@ module.exports = {
       });
     },
     post: function (req, res) {
-      var postParameters = [req.body.roomname];
-      models.rooms.post(postParameters, function (err, results) {
+      //var postParameters = [req.body.roomname];
+      models.rooms.post(req.body, function (err, results) {
         if (err) {
           console.log(err);
         } else {

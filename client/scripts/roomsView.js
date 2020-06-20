@@ -3,34 +3,24 @@ var RoomsView = {
   $button: $('#rooms button'),
   $select: $('#rooms select'),
 
-  //if roomname === undefined, roomname = 'lobby'
-
   initialize: function () {
     Rooms.add();
-
   },
 
-  render: function (arrayOfObj) {
-    // arrayOfObj = data.result [{}, {}, {}]
-    //append #rooms select with RoomView render function
-    var listOfRooms = [];
-    arrayOfObj.forEach(function (obj) {
-      if (obj.roomname && !listOfRooms.includes(RoomView.render({ roomname: obj.roomname }))) {
-        listOfRooms.push({ roomname: obj.roomname }); // list of individual objects [{roomname: "all"}, {roomname: "room1"}]
-      }
+  render: function (data) {
+    data.forEach(function (message) {
+        message.roomname = message.roomname || 'lobby';
+        let cleanedName = message.roomname.trim();
+        message.roomname = cleanedName;
+        if (Rooms.roomList[cleanedName] === undefined) {
+          Rooms.roomList[cleanedName] = cleanedName;
+          RoomsView.renderRoom(message);
+        }
     });
-    // iterate over list of rooms
-    for (var roomObj of listOfRooms) {
-      // passing each obj with an individual roomname property to the "renderRoom" function"
-      RoomsView.renderRoom(roomObj);
-    }
-    return listOfRooms;
   },
 
   renderRoom: function (room) {
-    // console.log(room);
-    roomname = room.roomname;
-    $('#rooms select').append(RoomView.render(roomname));
+    $('#rooms select').append(RoomView.render(room));
   }
 };
 

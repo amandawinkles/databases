@@ -30,7 +30,9 @@ describe('Persistent Node Chat Server', function () {
         });
       });
     });
+    //done();
   });
+
 
   afterEach(function () {
     dbConnection.end();
@@ -119,6 +121,34 @@ describe('Persistent Node Chat Server', function () {
             expect(messageLog[0].name).to.equal('Valjean');
             done();
           });
+        });
+      });
+    });
+  });
+
+  it('Should not insert duplicate roomnames to the DB', function (done) {
+    //2x post requests, 1x get request
+    //get request should bring back 1 record in array
+    console.log('Beginning of test ------------->');
+    request({
+      method: 'POST',
+      uri: 'http://127.0.0.1:3000/classes/rooms',
+      json: { roomname: 'main' }
+    }, function () {
+      console.log('second post requestxoxoxox');
+      request({
+        method: 'POST',
+        uri: 'http://127.0.0.1:3000/classes/rooms',
+        json: { roomname: 'main' }
+      }, function () {
+        console.log('reached select function --------->');
+        var queryString = 'SELECT * FROM rooms WHERE roomname = ?';
+        var queryArgs = ['main'];
+        dbConnection.query(queryString, queryArgs, function (error, results, fields) {
+          if (error) { throw error; }
+          console.log('query results', results);
+          expect(results.length).to.equal(1);
+          done();
         });
       });
     });

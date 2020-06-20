@@ -1,4 +1,7 @@
 var Rooms = {
+
+  roomList: {},
+
   add: function() {
 
     $('#rooms button').on('click', function() {

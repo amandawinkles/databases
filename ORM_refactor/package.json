@@ -1,0 +1,13 @@
+{
+  "name": "databases-orm-refactor",
+  "version": "0.0.0",
+  "main": "app.js",
+  "scripts": {
+    "prepare": "npm run build",
+    "start": "node ../server/app.js",
+    "start:dev": "nodemon ../server/app.js"
+  },
+  "dependencies": {
+    "sequelize": "^5.21.13"
+  }
+}

@@ -90,16 +90,40 @@ module.exports = {
 
   rooms: {
     get: function (callback) {
+      //console.log('roomname in get', roomname);
       var qString = 'SELECT * FROM rooms';
-      db.query(qString, function (err, results) {
-        callback(err, results);
-      });
+      dbAsync.queryAsync(qString)
+        .then(rows => {
+          callback(null, rows);
+          return rows;
+        })
+      // db.query(qString, function (err, results) {
+      //   callback(err, results);
+      // });
     },
-    post: function (postParameters, callback) {
-      var qString = 'INSERT INTO rooms (roomname) VALUES (?)';
-      db.query(qString, postParameters, function (err, results) {
-        callback(err, results);
-      });
+    //get one room method
+    post: function (reqObject, callback) {
+      module.exports.rooms.get(() => {})
+        .then(rows => {
+          console.log('rows from get', rows);
+          if (rows.length === 0) { //iterate through rows to see if in
+            console.log('about to hit insert in post');
+            dbAsync.queryAsync('insert into rooms (roomname) values (?)', [reqObject.roomname])
+              .then(results => {
+                console.log('insert results', results);
+                callback();
+                return results.insertID;
+              })
+          } else {
+            console.log('found row, here is ID', rows[0].id);
+            callback();
+            return rows[0].id;
+          }
+        });
+      // var qString = 'INSERT INTO rooms (roomname) VALUES (?)';
+      // db.query(qString, postParameters, function (err, results) {
+      //   callback(err, results);
+      // });
     }
   }
 };
