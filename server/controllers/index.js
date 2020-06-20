@@ -36,16 +36,16 @@ module.exports = {
         if (err) {
           console.log(err);
         } else {
-          res.sendStatus(200);
+          //res.sendStatus(200);
           res.json(results);
         }
       });
     },
     post: function (req, res) {
 
-      var postParameters = [req.body.username];
+      //var postParameters = [req.body.username];
 
-      models.users.post(postParameters, function (err, results) {
+      models.users.post(req.body, function (err, results) {
         if (err) {
           console.log(err);
         } else {
@@ -61,7 +61,7 @@ module.exports = {
         if (err) {
           console.log(err);
         } else {
-          res.sendStatus(200);
+          //res.sendStatus(200);
           res.json(results);
         }
       });

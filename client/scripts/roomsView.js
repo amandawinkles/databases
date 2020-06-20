@@ -9,13 +9,13 @@ var RoomsView = {
 
   render: function (data) {
     data.forEach(function (message) {
-        message.roomname = message.roomname || 'lobby';
-        let cleanedName = message.roomname.trim();
-        message.roomname = cleanedName;
-        if (Rooms.roomList[cleanedName] === undefined) {
-          Rooms.roomList[cleanedName] = cleanedName;
-          RoomsView.renderRoom(message);
-        }
+      message.roomname = message.roomname || 'lobby';
+      let cleanedName = message.roomname.trim();
+      message.roomname = cleanedName;
+      if (Rooms.roomList[cleanedName] === undefined) {
+        Rooms.roomList[cleanedName] = cleanedName;
+        RoomsView.renderRoom(message);
+      }
     });
   },
 

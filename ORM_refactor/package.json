@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "main": "app.js",
   "scripts": {
-    "prepare": "npm run build",
+    "copyfiles": "cp ../server/app.js ../server/routes.js",
     "start": "node ../server/app.js",
     "start:dev": "nodemon ../server/app.js"
   },

@@ -2,9 +2,9 @@ var Rooms = {
 
   roomList: {},
 
-  add: function() {
+  add: function () {
 
-    $('#rooms button').on('click', function() {
+    $('#rooms button').on('click', function () {
       var roomObj = {
         roomname: document.getElementById('roomText').value,
       };

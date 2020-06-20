@@ -24,7 +24,7 @@ var MessagesView = {
     $('#chats').append(MessageView.render(message));
   },
 
-  handleClick: function(event) {
+  handleClick: function (event) {
     let username = $(event.target).data('username');
     if (!username) {
       return;
