@@ -93,18 +93,18 @@ module.exports = {
           if (rows.length === 0) {
             //insert
             console.log('about to hit insert in post');
-          dbAsync.queryAsync('insert into users (name) values (?)', [reqObject.username])
-            .then(results => {
-              console.log('insert results', results);
-              callback();
-              return results.insertID;
-            })
+            dbAsync.queryAsync('insert into users (name) values (?)', [reqObject.username])
+              .then(results => {
+                console.log('insert results', results);
+                callback();
+                return results.insertID;
+              });
           } else {
             console.log('found row, here is ID', rows[0].id);
             callback();
             return rows[0].id;
           }
-        })
+        });
     }
   },
 
@@ -128,18 +128,18 @@ module.exports = {
           if (rows.length === 0) {
             //insert
             console.log('about to hit insert in post');
-          dbAsync.queryAsync('insert into rooms (roomname) values (?)', [reqObject.roomname])
-            .then(results => {
-              console.log('insert results', results);
-              callback();
-              return results.insertID;
-            })
+            dbAsync.queryAsync('insert into rooms (roomname) values (?)', [reqObject.roomname])
+              .then(results => {
+                console.log('insert results', results);
+                callback();
+                return results.insertID;
+              });
           } else {
             console.log('found row, here is ID', rows[0].id);
             callback();
             return rows[0].id;
           }
-        })
+        });
     }
   }
 };

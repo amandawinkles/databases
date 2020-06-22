@@ -153,4 +153,35 @@ describe('Persistent Node Chat Server', function () {
       });
     });
   });
+
+  it ('Should not insert duplicate username to the DB', function(done) {
+    request({
+      method: 'POST',
+      uri: 'http://127.0.0.1:3000/classes/rooms',
+      json: { username: 'Valjean' }
+    }, function () {
+      request({
+        method: 'POST',
+        uri: 'http://127.0.0.1:3000/classes/rooms',
+        json: { username: 'Valjean' }
+      }, function () {
+        var queryString = 'SELECT * FROM users WHERE name = ?';
+        var queryArgs = ['Valjean'];
+        dbConnection.query(queryString, queryArgs, function (error, results, fields) {
+          if (error) { throw error; }
+          expect(results.length).to.equal(1);
+          done();
+        });
+      });
+    });
+  });
+
+  it ('Should return status code 200 for successful request', function(done) {
+    request('http://127.0.0.1:3000/classes/')
+      .get('/messages')
+      .end((err, res) => {
+        expect(res).to.have.status(200);
+        done();
+      });
+  });
 });
